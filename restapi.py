@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify
 from pymongo import MongoClient
 import pprint
+from bson import json_util
+
 
 
 pp = pprint.PrettyPrinter(indent=4)
@@ -51,14 +53,10 @@ def handle_data():
     mavenpackages.insert_one(dict_data)
     return 'Data stored successfully'
 
-@app.route('/data', methods=['GET'])
-def get_data():
-    # Fetch all data from MongoDB collection
-    stored_data = mavenpackages.find()
-    pp.pprint(stored_data)
-
-    # Prepare the data to be returned as JSON
-    return jsonify(stored_data)
+@app.route('/', methods=['GET'])
+def get_maven_packages():
+    maven_packages = db['maven_packages']
+    return json.loads(json_util.dumps(maven_packages.find()))
 
 
 if __name__ == '__main__':
