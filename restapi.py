@@ -3,6 +3,7 @@ from pymongo import MongoClient
 import pprint
 
 
+pp = pprint.PrettyPrinter(indent=4)
 
 import xml.etree.ElementTree as ET
 import os
@@ -54,7 +55,7 @@ def handle_data():
 def get_data():
     # Fetch all data from MongoDB collection
     stored_data = mavenpackages.find()
-    pprint(stored_data)
+    pp.pprint(stored_data)
 
     # Prepare the data to be returned as JSON
     return jsonify(stored_data)
