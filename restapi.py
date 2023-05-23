@@ -52,17 +52,10 @@ def handle_data():
 def get_data():
     # Fetch all data from MongoDB collection
     stored_data = mavenpackages.find()
+    print(stored_data)
 
     # Prepare the data to be returned as JSON
-    data_list = []
-    for data in stored_data:
-        data_list.append({
-            'field1': data['field1'],
-            'field2': data['field2'],
-            # Add more fields as needed
-        })
-
-    return jsonify(data_list)
+    return jsonify(stored_data)
 
 
 if __name__ == '__main__':
