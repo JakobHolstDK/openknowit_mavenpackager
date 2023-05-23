@@ -51,7 +51,7 @@ def handle_data():
 @app.route('/data', methods=['GET'])
 def get_data():
     # Fetch all data from MongoDB collection
-    stored_data = mongo.db.collection_name.find()
+    stored_data = mavenpackages.find()
 
     # Prepare the data to be returned as JSON
     data_list = []
