@@ -1,11 +1,12 @@
 from flask import Flask, request
 from flask_pymongo import PyMongo
 import xml.etree.ElementTree as ET
+import os
 
 app = Flask(__name__)
 
 # Configure MongoDB connection
-app.config['MONGO_URI'] = 'mongodb://localhost:27017/mydatabase'
+app.config['MONGO_URI'] = os.getenv('MONGO')
 mongo = PyMongo(app)
 
 # Define a route to handle the XML data
