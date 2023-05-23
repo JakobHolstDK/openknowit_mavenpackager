@@ -25,7 +25,7 @@ def handle_data():
 
     # Insert data into MongoDB collection
     mongo.db.collection_name.insert_one(data)
- return 'Data stored successfully'
+    return 'Data stored successfully'
 
 @app.route('/data', methods=['GET'])
 def get_data():
