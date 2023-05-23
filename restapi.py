@@ -40,6 +40,8 @@ def handle_data():
     xml_data = request.data
     json_data = xml_to_json(xml_data)
     print(json_data)
+    dict_data = json.loads(json_data)
+    
 
     # Insert data into MongoDB collection
     mavenpackages.insert_one(json_data)
