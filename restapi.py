@@ -2,6 +2,8 @@ from flask import Flask, request
 from flask_pymongo import PyMongo
 import xml.etree.ElementTree as ET
 import os
+import json
+import xml2json
 
 app = Flask(__name__)
 
@@ -13,19 +15,11 @@ mongo = PyMongo(app)
 @app.route('/data', methods=['POST'])
 def handle_data():
     xml_data = request.data
-
-    # Parse XML
-    root = ET.fromstring(xml_data)
-
-    # Extract data from XML and store in MongoDB
-    data = {
-        'field1': root.find('field1').text,
-        'field2': root.find('field2').text,
-        # Add more fields as needed
-    }
+    json_data = xml2json.xml2json(xml_data)
+    print(json_data)
 
     # Insert data into MongoDB collection
-    mongo.db.collection_name.insert_one(data)
+    mongo.db.collection_name.insert_one(json_data)
     return 'Data stored successfully'
 
 @app.route('/data', methods=['GET'])
