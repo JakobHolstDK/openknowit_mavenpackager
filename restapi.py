@@ -25,8 +25,24 @@ def handle_data():
 
     # Insert data into MongoDB collection
     mongo.db.collection_name.insert_one(data)
+ return 'Data stored successfully'
 
-    return 'Data stored successfully'
+@app.route('/data', methods=['GET'])
+def get_data():
+    # Fetch all data from MongoDB collection
+    stored_data = mongo.db.collection_name.find()
+
+    # Prepare the data to be returned as JSON
+    data_list = []
+    for data in stored_data:
+        data_list.append({
+            'field1': data['field1'],
+            'field2': data['field2'],
+            # Add more fields as needed
+        })
+
+    return jsonify(data_list)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
