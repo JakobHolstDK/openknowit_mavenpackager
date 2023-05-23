@@ -42,7 +42,7 @@ def handle_data():
     print(json_data)
 
     # Insert data into MongoDB collection
-    mongo.db.collection_name.insert_one(json_data)
+    mavenpackages.insert_one(json_data)
     return 'Data stored successfully'
 
 @app.route('/data', methods=['GET'])
