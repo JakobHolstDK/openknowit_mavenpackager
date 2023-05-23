@@ -3,8 +3,29 @@ from flask_pymongo import PyMongo
 
 import xml.etree.ElementTree as ET
 import os
+import xml.etree.ElementTree as ET
 import json
-import xml2json
+
+def xml_to_json(xml_string):
+    root = ET.fromstring(xml_string)
+    return json.dumps(_element_to_dict(root))
+
+def _element_to_dict(element):
+    result = {}
+    if element.attrib:
+        result["@attributes"] = element.attrib
+    if element.text:
+        result["text"] = element.text.strip()
+    for child in element:
+        child_data = _element_to_dict(child)
+        if child.tag in result:
+            if isinstance(result[child.tag], list):
+                result[child.tag].append(child_data)
+            else:
+                result[child.tag] = [result[child.tag], child_data]
+        else:
+            result[child.tag] = child_data
+    return result
 
 app = Flask(__name__)
 
@@ -16,7 +37,7 @@ mongo = PyMongo(app)
 @app.route('/data', methods=['POST'])
 def handle_data():
     xml_data = request.data
-    json_data = xml2json.xml2json(xml_data)
+    json_data = xml_to_json(xml_data)
     print(json_data)
 
     # Insert data into MongoDB collection
