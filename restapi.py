@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
-from flask_pymongo import PyMongo
+from pymongo import MongoClient
+
 
 import xml.etree.ElementTree as ET
 import os
@@ -28,12 +29,12 @@ def _element_to_dict(element):
     return result
 
 app = Flask(__name__)
+client = MongoClient(os.getenv("MONGO"))
+db = client['maven-packages']
+mavenpackages = db['maven_packages']
+
 
 # Configure MongoDB connection
-app.config['MONGO_URI'] = os.getenv('MONGO')
-mongo = PyMongo(app)
-
-# Define a route to handle the XML data
 @app.route('/data', methods=['POST'])
 def handle_data():
     xml_data = request.data
